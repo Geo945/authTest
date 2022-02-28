@@ -23,7 +23,6 @@ function selectAccount () {
      */
 
     const currentAccounts = myMSALObj.getAllAccounts();
-
     if (currentAccounts.length === 0) {
         return;
     } else if (currentAccounts.length > 1) {
@@ -32,10 +31,13 @@ function selectAccount () {
     } else if (currentAccounts.length === 1) {
         username = currentAccounts[0].username;
         showWelcomeMessage(username);
+
     }
 }
 
 function handleResponse(response) {
+    console.log(response)
+
     if (response !== null) {
         username = response.account.username;
         showWelcomeMessage(username);
@@ -87,6 +89,43 @@ function getTokenRedirect(request) {
             }
         });
 }
+function callMSGraph(endpoint, token, callback) {
+    const headers = new Headers();
+    const bearer = `Bearer ${token}`;
+
+    headers.append("Authorization", bearer);
+
+    const options = {
+        method: "GET",
+        headers: headers
+    };
+
+    console.log('request made to Graph API at: ' + new Date().toString());
+
+    fetch(endpoint, options)
+        .then(response => response.json())
+        .then(response => callback(response, endpoint))
+        .catch(error => console.log(error));
+}
+
+function callMSGraph2(endpoint, token, callback) {
+    const headers = new Headers();
+    const bearer = `Bearer ${token}`;
+
+    headers.append("Authorization", bearer);
+
+    const options = {
+        method: "POST",
+        headers: headers
+    };
+
+    console.log('request made to Graph API at: ' + new Date().toString());
+
+    fetch(endpoint, options)
+        .then(response => response.json())
+        .then(response => callback(response, endpoint))
+        .catch(error => console.log(error));
+}
 
 function seeProfile() {
     getTokenRedirect(loginRequest)
@@ -95,6 +134,26 @@ function seeProfile() {
         }).catch(error => {
             console.error(error);
         });
+}
+
+function readPhoto() {
+    console.log('photo')
+    getTokenRedirect(loginRequest)
+        .then(response => {
+            callMSGraph("https://graph.microsoft.com/v1.0/me/photo", response.accessToken, updateUI);
+        }).catch(error => {
+        console.error(error);
+    });
+}
+
+function readGroup() {
+    getTokenRedirect(loginRequest)
+        .then(response => {
+            console.log(response)
+            callMSGraph2(`https://graph.microsoft.com/v1.0/groups/${response.account.localAccountId}/getMemberGroups`, response.accessToken, updateUI);
+        }).catch(error => {
+        console.error(error);
+    });
 }
 
 function readMail() {

@@ -17,7 +17,7 @@ function showWelcomeMessage(username) {
 
 function updateUI(data, endpoint) {
     console.log('Graph API responded at: ' + new Date().toString());
-
+    console.log(data)
     if (endpoint === graphConfig.graphMeEndpoint) {
         profileDiv.innerHTML = ''
         const title = document.createElement('p');

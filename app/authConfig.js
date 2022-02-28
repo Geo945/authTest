@@ -5,12 +5,12 @@
  */
 const msalConfig = {
     auth: {
-        clientId: "Enter_the_Application_Id_Here",
-        authority: "Enter_the_Cloud_Instance_Id_HereEnter_the_Tenant_Info_Here",
-        redirectUri: "Enter_the_Redirect_Uri_Here",
+        clientId: "118ab410-19fe-4ff6-9f19-2a2677cb9ae8",
+        authority: "https://login.microsoftonline.com/ac608997-cd3a-4ac5-bddb-bfce49973286/",
+        redirectUri: "http://localhost:3000/",
     },
     cache: {
-        cacheLocation: "sessionStorage", // This configures where your cache will be stored
+        cacheLocation: "sessionStorage", // This configures where your cache will be stored, it can be sessionStorage or LocalStorage
         storeAuthStateInCookie: false, // Set this to "true" if you are having issues on IE11 or Edge
     },
     system: {	
@@ -53,6 +53,6 @@ const loginRequest = {
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/resources-and-scopes.md
  */
 const tokenRequest = {
-    scopes: ["User.Read", "Mail.Read"],
+    scopes: ["User.Read","GroupMember.Read.All", "Mail.Read","Group.Read.All","User.Read.All"],
     forceRefresh: false // Set this to "true" to skip a cached token and go to the server to get a new token
 };

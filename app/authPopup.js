@@ -4,6 +4,8 @@ const myMSALObj = new msal.PublicClientApplication(msalConfig);
 
 let username = "";
 
+import {callMSGraph} from "./graph";
+
 function selectAccount() {
 
     /**
@@ -29,7 +31,6 @@ function handleResponse(response) {
      * To see the full list of response object properties, visit:
      * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/request-response-object.md#response
      */
-
     if (response !== null) {
         username = response.account.username;
         showWelcomeMessage(username);
@@ -44,7 +45,6 @@ function signIn() {
      * You can pass a custom request object below. This will override the initial configuration. For more information, visit:
      * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/request-response-object.md#request
      */
-
     myMSALObj.loginPopup(loginRequest)
         .then(handleResponse)
         .catch(error => {
@@ -95,6 +95,7 @@ function getTokenPopup(request) {
 }
 
 function seeProfile() {
+    console.log('here')
     getTokenPopup(loginRequest)
         .then(response => {
             callMSGraph(graphConfig.graphMeEndpoint, response.accessToken, updateUI);
