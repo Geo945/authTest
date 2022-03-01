@@ -3,6 +3,7 @@
 const myMSALObj = new msal.PublicClientApplication(msalConfig);
 
 let username = "";
+let groupNames = [];
 
 /**
  * A promise handler needs to be registered for handling the
@@ -125,8 +126,55 @@ function callMSGraph2(endpoint, token, callback) {
 
     fetch(endpoint, options)
         .then(response => response.json())
-        .then(response => callback(response, endpoint))
+        .then(response => {
+            getGroupById(response.value, token);
+            callback(response, endpoint)
+        })
         .catch(error => console.log(error));
+}
+
+const getGroupById = (array, token) => {
+
+
+    array.map((id) => {
+        const headers = new Headers();
+        const bearer = `Bearer ${token}`;
+
+        headers.append("Authorization", bearer);
+        headers.append('Content-Type', 'application/json');
+
+        const options = {
+            method: "GET",
+            headers: headers,
+        };
+        fetch(`https://graph.microsoft.com/v1.0/groups/${id}`, options)
+            .then(response => response.json())
+            .then((response) => {
+                console.log(response.displayName);
+                groupNames.push(response.displayName)
+            })
+            .catch(error => console.log(error));
+    })
+}
+
+const isAdmin = () => {
+    if(groupNames.length > 0){
+        groupNames.forEach((groupName) => {
+            if(groupName === 'BT-app-admin'){
+                console.log('True')
+            }
+        })
+    }
+}
+
+const isUser = () => {
+    if(groupNames.length > 0){
+        groupNames.forEach((groupName) => {
+            if(groupName === 'BT-app-user'){
+                console.log('True')
+            }
+        })
+    }
 }
 
 function seeProfile() {
