@@ -113,10 +113,12 @@ function callMSGraph2(endpoint, token, callback) {
     const bearer = `Bearer ${token}`;
 
     headers.append("Authorization", bearer);
+    headers.append('Content-Type', 'application/json');
 
     const options = {
         method: "POST",
-        headers: headers
+        headers: headers,
+        body: JSON.stringify({securityEnabledOnly: true})
     };
 
     console.log('request made to Graph API at: ' + new Date().toString());
@@ -137,7 +139,6 @@ function seeProfile() {
 }
 
 function readPhoto() {
-    console.log('photo')
     getTokenRedirect(loginRequest)
         .then(response => {
             callMSGraph("https://graph.microsoft.com/v1.0/me/photo", response.accessToken, updateUI);
@@ -149,8 +150,7 @@ function readPhoto() {
 function readGroup() {
     getTokenRedirect(loginRequest)
         .then(response => {
-            console.log(response)
-            callMSGraph2(`https://graph.microsoft.com/v1.0/groups/${response.account.localAccountId}/getMemberGroups`, response.accessToken, updateUI);
+            callMSGraph2(graphConfig.graphGroupEndpoint, response.accessToken, updateUI);
         }).catch(error => {
         console.error(error);
     });

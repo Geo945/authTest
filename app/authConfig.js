@@ -53,6 +53,6 @@ const loginRequest = {
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/resources-and-scopes.md
  */
 const tokenRequest = {
-    scopes: ["User.Read","GroupMember.Read.All", "Mail.Read","Group.Read.All","User.Read.All"],
+    scopes: ["User.Read","GroupMember.Read.All","Group.Read.All","User.Read.All"],
     forceRefresh: false // Set this to "true" to skip a cached token and go to the server to get a new token
 };
