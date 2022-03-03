@@ -3,5 +3,6 @@ const graphConfig = {
     graphMeEndpoint: "https://graph.microsoft.com/v1.0/me",
     graphMailEndpoint: "https://graph.microsoft.com/v1.0/me/messages",
     graphPhotoEndpoint: "https://graph.microsoft.com/v1.0/me/photo/$value",
-    graphGroupEndpoint: "https://graph.microsoft.com/v1.0/me/getMemberGroups"
+    graphGroupEndpoint: "https://graph.microsoft.com/v1.0/me/getMemberGroups",
+    graphUsersEndpoint: "https://graph.microsoft.com/v1.0/users"
 };

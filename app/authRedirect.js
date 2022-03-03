@@ -177,6 +177,16 @@ const isUser = () => {
     }
 }
 
+const getUsers = () => {
+
+    getTokenRedirect(loginRequest)
+        .then(response => {
+            callMSGraph(graphConfig.graphUsersEndpoint, response.accessToken, updateUI);
+        }).catch(error => {
+        console.error(error);
+    });
+}
+
 function seeProfile() {
     getTokenRedirect(loginRequest)
         .then(response => {
